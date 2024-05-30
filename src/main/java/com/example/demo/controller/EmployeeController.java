@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.demo.entity.EmployeeEntity;
 import com.example.demo.service.EmployeeService;
@@ -20,34 +21,37 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping("EmployeeDetails")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<EmployeeEntity> saveEmployee(@RequestBody EmployeeEntity employee) {
         EmployeeEntity savedEmployee = employeeService.saveEmployee(employee);
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
 
     @GetMapping("/employeeId/{employeeId}")
-    public ResponseEntity<EmployeeEntity> getEmployeeById(@PathVariable("employeeId") Long employeeId) {
+    @ResponseStatus(HttpStatus.OK)
+    public EmployeeEntity getEmployeeById(@PathVariable("employeeId") Long employeeId) {
         Optional<EmployeeEntity> employee = employeeService.getEmployeeById(employeeId);
-        return employee.map(value -> ResponseEntity.ok().body(value))
-                .orElse(ResponseEntity.notFound().build());
+        return employee.orElse(null); 
     }
 
 
     @GetMapping("/getAll")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<EmployeeEntity>> getAllEmployees() {
         List<EmployeeEntity> employees = employeeService.getAllEmployees();
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
     @GetMapping("/tax/{employeeId}")
-    public ResponseEntity<TaxDetails> getTaxDetails(@PathVariable String employeeId) {
+    @ResponseStatus(HttpStatus.OK)
+    public TaxDetails getTaxDetails(@PathVariable String employeeId) {
         TaxDetails taxDetails = employeeService.getTaxDetails(employeeId);
-        if (taxDetails != null) {
-            return new ResponseEntity<>(taxDetails, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (taxDetails == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tax details not found");
         }
+        return taxDetails;
     }
+
 }
 
 
