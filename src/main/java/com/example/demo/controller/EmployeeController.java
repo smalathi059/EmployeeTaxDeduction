@@ -55,8 +55,14 @@ public class EmployeeController {
     @GetMapping("/getByLastname/{lastName}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<EmployeeEntity>> getEmployeesbylastname(@PathVariable String lastName) {
-        List<EmployeeEntity> employees = employeeService.getEmployeesByLastname(lastName);
-        
+        List<EmployeeEntity> employees = employeeService.getEmployeesByLastname(lastName);        
+        return new ResponseEntity<>(employees, HttpStatus.OK);
+    }
+    
+    @GetMapping("/getByfirstname/{firstName}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<EmployeeEntity>> getEmployeesbyfirstname(@PathVariable String firstName) {
+        List<EmployeeEntity> employees = employeeService.getEmployeesByfirstname(firstName);
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 

@@ -13,4 +13,7 @@ public interface EmployeeRepo extends JpaRepository<EmployeeEntity, Long>{
 	 @Query(value = "select * from employee_details where last_name =?1",nativeQuery = true)
 	 List<EmployeeEntity> findByEmployeelastName(String lastName);
 	 
+	 @Query(value="select * from employee_details where first_name =?1",nativeQuery = true)
+	 List<EmployeeEntity> findByEmployeefirstName(String firstName);
+	 
 }
