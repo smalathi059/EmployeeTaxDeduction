@@ -72,4 +72,8 @@ public class EmployeeService {
     public List<EmployeeEntity> getEmployeesByLastname(String lastname) {
         return employeerepo.findByEmployeelastName(lastname);
     }
+    
+    public List<EmployeeEntity> getEmployeesByfirstname(String firstname) {
+        return employeerepo.findByEmployeefirstName(firstname);
+    }
 }
