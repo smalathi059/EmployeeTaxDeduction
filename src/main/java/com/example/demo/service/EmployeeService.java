@@ -24,7 +24,7 @@ public class EmployeeService {
     public Optional<EmployeeEntity> getEmployeeById(Long id) {
         return employeerepo.findById(id);
     }
-
+    
     public List<EmployeeEntity> getAllEmployees() {
         return employeerepo.findAll();
     }
@@ -67,5 +67,9 @@ public class EmployeeService {
         double tax = calculateTax(yearlySalary);
         double cess = calculateCess(yearlySalary);
         return new TaxDetails(yearlySalary, tax, cess);
+    }
+    
+    public List<EmployeeEntity> getEmployeesByLastname(String lastname) {
+        return employeerepo.findByEmployeelastName(lastname);
     }
 }
