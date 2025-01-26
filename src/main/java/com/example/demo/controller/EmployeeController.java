@@ -51,6 +51,13 @@ public class EmployeeController {
         }
         return taxDetails;
     }
+    
+    @GetMapping("/getByLastname/{lastName}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<EmployeeEntity>> getEmployeesbylastname(@PathVariable String lastName) {
+        List<EmployeeEntity> employees = employeeService.getEmployeesByLastname(lastName);
+        return new ResponseEntity<>(employees, HttpStatus.OK);
+    }
 
 }
 
